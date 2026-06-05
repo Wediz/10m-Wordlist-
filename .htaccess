@@ -1,0 +1,33 @@
+Options -Indexes
+RewriteEngine On
+
+# Forcer HTTPS
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Clean URLs
+RewriteRule ^biens/?$                   biens.php [L]
+RewriteRule ^bien/([a-z0-9-]+)/?$       bien.php?slug=$1 [QSA,L]
+RewriteRule ^contact/?$                 contact.php [L]
+RewriteRule ^estimation/?$              estimation.php [L]
+RewriteRule ^blog/?$                    blog.php [L]
+RewriteRule ^blog/([a-z0-9-]+)/?$       blog.php?slug=$1 [QSA,L]
+RewriteRule ^immobilier-([a-z0-9-]+)/?$ ville.php?slug=$1 [QSA,L]
+RewriteRule ^mentions-legales/?$        mentions-legales.php [L]
+RewriteRule ^admin/?$                   admin/index.php [L]
+RewriteRule ^admin/login/?$             admin/login.php [L]
+RewriteRule ^admin/api/?$               admin/api.php [L]
+RewriteRule ^api/contact/?$             api/contact.php [L]
+RewriteRule ^api/estimation/?$          api/estimation.php [L]
+
+# Headers sécurité
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "DENY"
+    Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+# Cacher fichiers sensibles
+<FilesMatch "^(config\.php|\.env|install\.sql|setup\.php)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
